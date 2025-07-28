@@ -28,6 +28,12 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        $profile = $request->user()->profile;
+
+        $request->user()->profile->fill($request->only(['bio', 'location_name', 'name', 'looking_for_type', 'looking_for_gender']));
+
+        $profile->save();
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }

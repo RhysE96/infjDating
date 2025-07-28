@@ -6,7 +6,6 @@
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __("Update your account's profile information.") }}<br>
-            <span>Your role is {{ $user->role }}</span>
         </p>
     </header>
 
@@ -16,15 +15,64 @@
 
     <div>
     </div>
-
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name', $user->profile->name)" required />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
+            <x-input-label class="mt-3" for="email" :value="__('Email')" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+
+            <x-input-label class="mt-3" for="bio" :value="__('Bio')" />
+            <textarea id="bio" name="bio" class="mt-1 block w-full" required >{{ old('bio', $user->profile->bio ?? '') }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+
+            <x-input-label class="mt-3" for="location_name" :value="__('Location')" />
+            <x-text-input id="location_name" name="location_name" type="text" class="mt-1 block w-full" :value="old('location_name', $user->profile->location_name)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('location_name')" />
+
+            <div class="mt-4">
+                <x-input-label for="looking_for" :value="__('Looking For type')" />
+                    <div class="block mt-1 w-full">
+                        <div class="flex items-center gap-4 mt-2 text-white">
+                            <label for="looking_for_friendship" class="flex items-center gap-1">
+                                <input type="checkbox" id="looking_for_friendship" name="looking_for_type[]" value="friendship" {{ in_array('friendship', old('looking_for_type', $user->profile->looking_for_type ?? [])) ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <span class="ml-2">{{ __('Friendship') }}</span>
+                            </label>
+
+                            <label for="looking_for_relationship" class="flex items-center gap-1">
+                                <input type="checkbox" id="looking_for_relationship" name="looking_for_type[]" value="relationship" {{ in_array('relationship', old('looking_for_type', $user->profile->looking_for_type ?? [])) ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <span class="ml-2">{{ __('Relationship') }}</span>
+                            </label>
+                        </div>
+                    </div>
+                <x-input-error :messages="$errors->get('looking_for_type')" class="mt-2" />
+            </div>
+
+            <!-- Looking For gender -->  
+            <div class="mt-4">
+                <x-input-label for="looking_for_gender" :value="__('Looking For Gender')" />
+                <div class="block mt-1 w-full">
+                    <div class="flex items-center gap-4 mt-2 text-white">
+                        <label for="looking_for_gender_male" class="flex items-center gap-1">
+                            <input type="checkbox" id="looking_for_gender_male" name="looking_for_gender[]" value="male" {{ in_array('male', old('looking_for_gender', $user->profile->looking_for_gender ?? [])) ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            <span class="ml-2">{{ __('Male') }}</span>
+                        </label>
+
+                        <label for="looking_for_gender_female" class="flex items-center gap-1">
+                            <input type="checkbox" id="looking_for_gender_female" name="looking_for_gender[]" value="female" {{ in_array('female', old('looking_for_gender', $user->profile->looking_for_gender ?? [])) ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            <span class="ml-2">{{ __('Female') }}</span>
+                        </label>
+                    </div>
+                </div>
+                <x-input-error :messages="$errors->get('looking_for_gender')" class="mt-2" />
+            </div>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>

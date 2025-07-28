@@ -30,7 +30,6 @@ class User extends Authenticatable
         'last_login_at' => 'datetime',
     ];
 
-    // Optional: relationship to profile if you create one
     public function profile()
     {
         return $this->hasOne(Profile::class);
