@@ -29,6 +29,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $request->user()->profile->update(['last_active_at' => now()]);//what if they're already logged in? 
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -47,11 +47,7 @@
         </div>
 
         <!-- Location -->
-        <div class="mt-4">
-            <x-input-label for="location_name" :value="__('Location')" />
-            <x-text-input id="location_name" class="block mt-1 w-full" type="text" name="location_name" required />
-            <x-input-error :messages="$errors->get('location_name')" class="mt-2" />
-        </div>
+       <x-location-autocomplete />
 
         <!-- Gender -->
         <div class="mt-4">

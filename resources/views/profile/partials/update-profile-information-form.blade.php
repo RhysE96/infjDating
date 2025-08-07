@@ -33,9 +33,7 @@
             <textarea id="bio" name="bio" class="mt-1 block w-full" required >{{ old('bio', $user->profile->bio ?? '') }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
 
-            <x-input-label class="mt-3" for="location_name" :value="__('Location')" />
-            <x-text-input id="location_name" name="location_name" type="text" class="mt-1 block w-full" :value="old('location_name', $user->profile->location_name)" required />
-            <x-input-error class="mt-2" :messages="$errors->get('location_name')" />
+            <x-location-autocomplete :value="old('location_name', $user->profile->location_name ?? '')" />
 
             <div class="mt-4">
                 <x-input-label for="looking_for" :value="__('Looking For type')" />

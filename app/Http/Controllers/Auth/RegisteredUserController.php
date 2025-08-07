@@ -38,9 +38,12 @@ class RegisteredUserController extends Controller
             'looking_for_type.*' => 'in:friendship,relationship',
             'looking_for_gender' => 'required|array',
             'looking_for_gender.*' => 'in:male,female',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:500',
             'bio' => 'nullable|string|max:500',
             'birthdate' => 'required|date',
+            'location_name' => 'required|string|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         $user = User::create([
@@ -61,8 +64,8 @@ class RegisteredUserController extends Controller
             'birthdate' => $request->input('birthdate'),
             'gender' => $request->input('gender'),
             'location_name' => $request->input('location_name'),
-            'latitude' => '',
-            'longitude' => '',
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
             'looking_for_type' => $request->input('looking_for_type'),
             'looking_for_gender' => $request->input('looking_for_gender'),
         ]);
